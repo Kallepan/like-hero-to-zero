@@ -1,0 +1,14 @@
+
+Table Emissions {
+  id serial [pk]
+  country_code varchar
+  countrz_name varchar
+  year numeric
+  emission numeric
+}
+
+Table Scientist {
+  id serial [pk]
+  username varchar [pk]
+  password varchar
+}

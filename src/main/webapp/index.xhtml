@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Like Hero To Zero</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+</h:head>
+<h:body>
+    <h1>#{application.title}</h1>
+
+    <!-- Login Form -->
+    <h:form rendered="#{application.isLoggedIn() eq false}">
+        <h:panelGrid columns="2">
+            <h:outputLabel for="username" value="Username: " />
+            <h:inputText id="username" value="#{application.username}" />
+
+            <h:outputLabel for="password" value="Password: " />
+            <h:inputSecret id="password" value="#{application.password}" />
+        </h:panelGrid>
+        <h:commandButton value="Login" action="#{application.login(application.username, application.password)}" />
+    </h:form>
+
+    <h:messages />
+
+    <!-- Country Emissions Data -->
+    <h:form>
+        <h:selectOneMenu value="#{application.activeCountryCode}">
+            <f:selectItem itemLabel="Select Country" itemValue="" />
+            <f:selectItems value="#{application.countries}" var="country" itemLabel="#{country.country_name}"
+                itemValue="#{country.country_code}" />
+            <f:ajax event="change" listener="#{application.onSelectCountry(application.activeCountryCode)}"
+                render="emissionsTable" />
+        </h:selectOneMenu>
+    </h:form>
+
+    <h:panelGroup rendered="#{not empty application.activeCountryCode}">
+        <h:dataTable id="emissionsTable" value="#{application.emissions}" var="emission">
+            <h:column>
+                <f:facet name="header">Country</f:facet>
+                #{emission.countryName}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Year</f:facet>
+                #{emission.year}
+            </h:column>
+            <h:column>
+                <f:facet name="header">CO2 Emissions</f:facet>
+                #{emission.emission}
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+</h:body>
+
+</html>

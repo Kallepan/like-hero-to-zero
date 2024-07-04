@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Emissionsdaten Verwalten</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css" />
+</h:head>
+<h:body>
+    <h1>Emissionsdaten Verwalten</h1>
+
+    <h:form>
+        <h:selectOneMenu value="#{application.activeCountryCode}">
+            <f:selectItem itemLabel="Select Country" itemValue="" />
+            <f:selectItems value="#{application.countries}" var="country" itemLabel="#{country.country_name}"
+                itemValue="#{country.country_code}" />
+        </h:selectOneMenu>
+
+        <h:outputLabel for="year" value="Year: " />
+        <h:inputText id="year" value="#{application.year}" />
+
+        <h:outputLabel for="amount" value="CO2 Emissions: " />
+        <h:inputText id="amount" value="#{application.amount}" />
+
+        <h:commandButton value="Add Emission"
+            action="#{application.addEmission(application.activeCountryCode, application.amount, application.year)}" />
+    </h:form>
+
+    <h:dataTable value="#{application.emissions}" var="emission">
+        <h:column>
+            <f:facet name="header">Year</f:facet>
+            #{emission.year}
+        </h:column>
+        <h:column>
+            <f:facet name="header">CO2 Emissions</f:facet>
+            #{emission.emission}
+        </h:column>
+    </h:dataTable>
+</h:body>
+
+</html>
